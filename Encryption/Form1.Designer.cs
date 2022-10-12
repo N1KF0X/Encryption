@@ -53,6 +53,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Зашифровать";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.To_Encrypt_Click);
             // 
             // button2
             // 
@@ -73,7 +74,7 @@
             this.button3.TabIndex = 2;
             this.button3.Text = "Скопировать текст";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.To_Copy_Text_Click);
             // 
             // label1
             // 
@@ -114,7 +115,7 @@
             this.button4.TabIndex = 6;
             this.button4.Text = "Скопировать\r\n";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.To_Copy_Key_Click);
             // 
             // button5
             // 
@@ -125,7 +126,7 @@
             this.button5.TabIndex = 7;
             this.button5.Text = "Справка";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.Help_Click);
             // 
             // textBox1
             // 
