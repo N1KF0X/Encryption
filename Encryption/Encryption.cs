@@ -54,7 +54,7 @@ namespace Encryption
         
         public static String Encryp_Text(String text, int[,] grid)
         {
-            String encrypteЕext = "";
+            String encryptedText = "";
             char[,] textChars = new char[10, 10];
             int counter = 0;
             text = text.Replace("\n", "");
@@ -85,7 +85,9 @@ namespace Encryption
                         counter++;
                 }
             }
+
             counter = 0;
+
             for (int line = 0; line < 10; line++)
             {
                 for (int column = 0; column < 10; column++)
@@ -97,7 +99,7 @@ namespace Encryption
                     }
                 }
             }
-            counter = 0;
+            
             for (int line = 0; line < 10; line++)
             {
                 for (int column = 0; column < 10; column++)
@@ -139,10 +141,115 @@ namespace Encryption
             {
                 for (int column = 0; column < 10; column++)
                 {
-                    encrypteЕext += textChars[line, column];
+                    encryptedText += textChars[line, column];
                 }
             }
-            return encrypteЕext;
+            return encryptedText;
+        }
+
+        public static String Decryption_Text(String key, String encryptedText)
+        {
+            String decryptedText = "";
+            string[] splitKey = key.Split('.');
+            int[] intKey = new int[25];
+
+            for (int counter = 0; counter < 25; counter++)
+            {
+                intKey[counter] = int.Parse(splitKey[counter]);
+            }
+
+            int[,] grid = new int[10, 10];
+            char[,] textChars = new char[10, 10];
+            int cageCounter = 0;
+            int ifCounter = 0;
+
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    textChars[line, column] = encryptedText[cageCounter];
+                    cageCounter++;
+                }
+            }
+
+            cageCounter = 0;
+
+            //СОЗДАЁМ РЕШЁТКУ
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    if (cageCounter == intKey[ifCounter])
+                    {
+                        grid[line, column] = 1;
+                        grid[column, 9 - line] = 2;
+                        grid[9 - line, 9 - column] = 3;
+                        grid[9 - column, line] = 4;
+                        ifCounter++;
+                    }
+                    cageCounter++;                  
+                }
+            }
+
+            cageCounter = 0;
+
+            //РАСШИФРОВКА
+
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    if (grid[line, column] == 1)
+                    {
+                        decryptedText += textChars[line, column];
+                    }
+                    cageCounter++;
+                }
+            }
+
+            cageCounter = 0;
+
+            for (int column = 9; column > -1; column--)
+            {
+                for (int line = 0; line < 10; line++)
+                {
+                    if (grid[line, column] == 2)
+                    {
+                        decryptedText += textChars[line, column];
+                    }
+                    cageCounter++;
+                }
+            }
+
+            cageCounter = 0;
+
+            for (int line = 9; line > -1; line--)
+            {
+                for (int column = 9; column > -1; column--)
+                {
+                    if (grid[line, column] == 3)
+                    {
+                        decryptedText += textChars[line, column]; ;
+                    }
+                    cageCounter++;
+                }
+            }
+
+            cageCounter = 0;
+
+            for (int column = 0; column < 10; column++)
+            {
+                for (int line = 9; line > -1; line--)
+                {
+                    if (grid[line, column] == 4)
+                    {
+                        decryptedText += textChars[line, column];
+                    }
+                    cageCounter++;
+                }
+            }
+
+            return decryptedText;
         }
     }
 }

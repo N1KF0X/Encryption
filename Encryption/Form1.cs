@@ -56,5 +56,17 @@ namespace Encryption
             textBox3.Text = key.Remove(key.Length - 1);
             textBox2.Text = Encryption.Encryp_Text(textBox1.Text, this.grid);       
         }
+
+        private void To_Decrypt_Text(object sender, EventArgs e)
+        {
+            try
+            {
+                textBox2.Text = Encryption.Decryption_Text(textBox3.Text, textBox1.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Были введены некорректные данные");
+            }
+        }
     }
 }
