@@ -51,17 +51,17 @@ namespace Encryption
             }
             return grid;
         }   
-        
+
         public static String Encryp_Text(String text, int[,] grid)
         {
             String encryptedText = "";
-            char[,] textChars = new char[10, 10];
+            char[,] textChars = new char[100, 100];
             int counter = 0;
             text = text.Replace("\n", "");
 
-            if (text.Length != 100)
+            if (text.Length != 1000)
             {
-                if (text.Length > 100)
+                if (text.Length > 1000)
                 {
                     return Convert.ToString(text.Length) + " Ошибка: превышенно допустимое число символов";
                 }
@@ -70,7 +70,7 @@ namespace Encryption
                 {
                     for (int i = text.Length; i < 100; i++)
                     {
-                        text += "b";
+                        text += " ";
                     }
                 }
             }
@@ -81,8 +81,7 @@ namespace Encryption
             {
                 for (int column = 0; column < 10; column++)
                 {
-                        textChars[line, column] = 'a';
-                        counter++;
+                        textChars[line, column] = 'a';     
                 }
             }
 
@@ -150,22 +149,15 @@ namespace Encryption
         public static String Decryption_Text(String key, String encryptedText)
         {
             String decryptedText = "";
-            string[] splitKey = key.Split('.');
-            int[] intKey = new int[25];
-
-            for (int counter = 0; counter < 25; counter++)
-            {
-                intKey[counter] = int.Parse(splitKey[counter]);
-            }
-
+            int[] intKey = Convert_Key_To_Int(key);
             int[,] grid = new int[10, 10];
             char[,] textChars = new char[10, 10];
             int cageCounter = 0;
             int ifCounter = 0;
 
-            for (int line = 0; line < 10; line++)
+            for (int line = 0; cageCounter < encryptedText.Length && line < 10; line++)
             {
-                for (int column = 0; column < 10; column++)
+                for (int column = 0; cageCounter < encryptedText.Length && column < 10; column++)
                 {
                     textChars[line, column] = encryptedText[cageCounter];
                     cageCounter++;
@@ -175,9 +167,9 @@ namespace Encryption
             cageCounter = 0;
 
             //СОЗДАЁМ РЕШЁТКУ
-            for (int line = 0; line < 10; line++)
+            for (int line = 0; ifCounter != 25 && line < 10; line++)
             {
-                for (int column = 0; column < 10; column++)
+                for (int column = 0; ifCounter != 25 && column < 10; column++)
                 {
                     if (cageCounter == intKey[ifCounter])
                     {
@@ -187,7 +179,7 @@ namespace Encryption
                         grid[9 - column, line] = 4;
                         ifCounter++;
                     }
-                    cageCounter++;                  
+                    cageCounter++;
                 }
             }
 
@@ -229,7 +221,7 @@ namespace Encryption
                 {
                     if (grid[line, column] == 3)
                     {
-                        decryptedText += textChars[line, column]; ;
+                        decryptedText += textChars[line, column]; 
                     }
                     cageCounter++;
                 }
@@ -251,5 +243,130 @@ namespace Encryption
 
             return decryptedText;
         }
+
+        private static int[] Convert_Key_To_Int(string key)
+        {
+            string[] splitKey = key.Split('.');
+            int[] intKey = new int[25];
+
+            for (int counter = 0; counter < 25; counter++)
+            {
+                intKey[counter] = int.Parse(splitKey[counter]);
+            }
+
+            return intKey;
+        } 
+
+        public static String Encryp_Text_With_Key(String text, String key)
+        {
+            String encryptedText = "";
+            int[] intKey = Convert_Key_To_Int(key);
+            text = text.Replace("\n", "");
+
+            if (text.Length != 100)
+            {
+                if (text.Length > 100)
+                {
+                    return Convert.ToString(text.Length) + " Ошибка: превышенно допустимое число символов";
+                }
+
+                if (text.Length < 100)
+                {
+                    for (int i = text.Length; i < 100; i++)
+                    {
+                        text += " ";
+                    }
+                }
+            }
+
+            char[,] textChars = new char[10, 10];
+
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    textChars[line, column] = 'a';
+                }
+            }
+
+            int[,] grid = new int[10, 10];
+            int cageCounter = 0;
+            int keyCounter = 0;
+
+            for (int line = 0; keyCounter != 25 && line < 10; line++)
+            {
+                for (int column = 0; keyCounter != 25 && column < 10; column++)
+                {              
+                    if (cageCounter == intKey[keyCounter])
+                    {
+                        grid[line, column] = 1;                      
+                        keyCounter++;
+                    }
+                    cageCounter++;
+                }
+            }
+
+            cageCounter = 0;
+
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    if (grid[line, column] == 1)
+                    {
+                        textChars[line, column] = text[cageCounter];
+                        cageCounter++;
+                    }
+                }
+            }
+
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    if (grid[line, column] == 1)
+                    {
+                        textChars[column, 9 - line] = text[cageCounter];
+                        cageCounter++;
+                    }
+                }
+            }
+
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    if (grid[line, column] == 1)
+                    {
+                        textChars[9 - line, 9 - column] = text[cageCounter];
+                        cageCounter++;
+                    }
+                }
+            }
+
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    if (grid[line, column] == 1)
+                    {
+                        textChars[9 - column, line] = text[cageCounter];
+                        cageCounter++;
+                    }
+                }
+            }
+
+            //ВЫВОД
+            for (int line = 0; line < 10; line++)
+            {
+                for (int column = 0; column < 10; column++)
+                {
+                    encryptedText += textChars[line, column];
+                }
+            }
+
+            return encryptedText;
+        }
+
     }
 }

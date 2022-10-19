@@ -37,24 +37,33 @@ namespace Encryption
 
         private void To_Encrypt_Click(object sender, EventArgs e)
         {
-            this.grid = Encryption.Key_Generation();
             String key = "";
-            int counter = 0;
 
-            for (int line = 0; line < 10; line++)
+            if (radioButton1.Checked)
             {
-                for (int column = 0; column < 10; column++)
-                {
-                    if (grid[line, column] == 1)
-                    {
-                        key += Convert.ToString(counter) + ".";
-                    }
-                    counter ++;
-                }
+                key = textBox3.Text;
+                textBox2.Text = Encryption.Encryp_Text_With_Key(textBox1.Text, key);
             }
+            else
+            {
+                this.grid = Encryption.Key_Generation();             
+                int counter = 0;
 
-            textBox3.Text = key.Remove(key.Length - 1);
-            textBox2.Text = Encryption.Encryp_Text(textBox1.Text, this.grid);       
+                for (int line = 0; line < 10; line++)
+                {
+                    for (int column = 0; column < 10; column++)
+                    {
+                        if (grid[line, column] == 1)
+                        {
+                            key += Convert.ToString(counter) + ".";
+                        }
+                        counter++;
+                    }
+                }
+
+                textBox3.Text = key.Remove(key.Length - 1);
+                textBox2.Text = Encryption.Encryp_Text(textBox1.Text, this.grid);
+            }       
         }
 
         private void To_Decrypt_Text(object sender, EventArgs e)
