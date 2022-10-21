@@ -164,7 +164,6 @@ namespace Encryption
                 textChars = new char[encryptedText.Length / 100 + 1, 10, 10];
             }
 
-            int counter = 0;
             int cageCounter = 0;
             int ifCounter = 0;         
 
@@ -189,7 +188,6 @@ namespace Encryption
 
             for (int hundred = 0; hundred < textChars.GetLength(0); hundred++)
             {
-
                 for (int line = 0; cageCounter < encryptedText.Length && line < 10; line++)
                 {
                     for (int column = 0; cageCounter < encryptedText.Length && column < 10; column++)
@@ -198,11 +196,13 @@ namespace Encryption
                         cageCounter++;
                     }
                 }
+            }
 
-                cageCounter = 0;
+            cageCounter = 0;
 
-                //РАСШИФРОВКА
-
+            //РАСШИФРОВКА
+            for (int hundred = 0; hundred < textChars.GetLength(0); hundred++)
+            {
                 for (int line = 0; line < 10; line++)
                 {
                     for (int column = 0; column < 10; column++)
