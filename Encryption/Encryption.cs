@@ -9,7 +9,7 @@ namespace Encryption
     internal static class Encryption
     {
         static private Random random = new Random();
-        public static int[,] Key_Generation()
+        public static int[,] Grid_Generation()
         {
             int[] quarter = new int[25];
             int[,] grid = new int[10,10];       
@@ -72,8 +72,6 @@ namespace Encryption
             for (int hundred = 0; hundred < textChars.GetLength(0); hundred++) 
             {
                 
-                //ШИФРОВАНИЕ
-                
                 for (int line = 0; line < 10; line++)
                 {
                     for (int column = 0; column < 10; column++)
@@ -134,7 +132,6 @@ namespace Encryption
                 }
             }
 
-            //ВЫВОД
             for (int hundred = 0; hundred < textChars.GetLength(0); hundred++) 
             {
                 for (int line = 0; line < textChars.GetLength(1); line++)
@@ -167,7 +164,6 @@ namespace Encryption
             int cageCounter = 0;
             int ifCounter = 0;         
 
-            //СОЗДАЁМ РЕШЁТКУ
             for (int line = 0; ifCounter != 25 && line < 10; line++)
             {
                 for (int column = 0; ifCounter != 25 && column < 10; column++)
@@ -200,7 +196,6 @@ namespace Encryption
 
             cageCounter = 0;
 
-            //РАСШИФРОВКА
             for (int hundred = 0; hundred < textChars.GetLength(0); hundred++)
             {
                 for (int line = 0; line < 10; line++)
@@ -273,7 +268,7 @@ namespace Encryption
 
             return intKey;
         } 
-
+        /*
         public static String Encryp_Text_With_Key(String text, String key)
         {
             String encryptedText = "";
@@ -368,7 +363,6 @@ namespace Encryption
                 }
             }
 
-            //ВЫВОД
             for (int hundred = 0; hundred < textChars.GetLength(0); hundred++)
             {
                 for (int line = 0; line < 10; line++)
@@ -381,6 +375,28 @@ namespace Encryption
             }
             return encryptedText;
         }
+        */
+        public static int[,] Convert_Key_To_Grid(String key)
+        {
+            int[] intKey = Convert_Key_To_Int(key);
+            int[,] grid = new int[10, 10];
+            int cageCounter = 0;
+            int keyCounter = 0;
 
+            for (int line = 0; keyCounter != 25 && line < 10; line++)
+            {
+                for (int column = 0; keyCounter != 25 && column < 10; column++)
+                {
+                    if (cageCounter == intKey[keyCounter])
+                    {
+                        grid[line, column] = 1;
+                        keyCounter++;
+                    }
+                    cageCounter++;
+                }
+            }
+
+            return grid;
+        }
     }
 }
