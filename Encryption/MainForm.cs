@@ -10,43 +10,49 @@ using System.Windows.Forms;
 
 namespace Encryption
 {
-    public partial class Form1 : Form
+    public partial class MainForm : System.Windows.Forms.Form
     {
-        AboutBox1 aboutBox1 = new AboutBox1();
+        AboutBox aboutBox;
         int[,] grid;
-        public Form1()
+        bool isFirstWindow = true;
+        public MainForm()
         {
             InitializeComponent(); 
 
         }
 
-        private void To_Copy_Text_Click(object sender, EventArgs e)
+        private void To_Copy_Text(object sender, EventArgs e)
         {
             Clipboard.SetText(textBox2.Text);
         }
 
-        private void To_Copy_Key_Click(object sender, EventArgs e)
+        private void To_Copy_Key(object sender, EventArgs e)
         {
             Clipboard.SetText(textBox3.Text);
         }
 
-        private void Help_Click(object sender, EventArgs e)
+        private void Help(object sender, EventArgs e)
         {
-            this.aboutBox1.Show();
+            if (!isFirstWindow)
+            {
+                aboutBox.Close();
+            }
+            aboutBox = new AboutBox();
+            aboutBox.Show(); 
+            isFirstWindow = false;
         }
 
-        private void To_Encrypt_Click(object sender, EventArgs e)
-        {
-            String key = "";
+        private void To_Encrypt(object sender, EventArgs e)
+        {        
 
             if (radioButton1.Checked)
             {
-                key = textBox3.Text;
-                textBox2.Text = Encryption.Encryp_Text_With_Key(textBox1.Text, key);
+                this.grid = Encryption.Convert_Key_To_Grid(textBox3.Text);
             }
             else
             {
-                this.grid = Encryption.Key_Generation();             
+                String key = "";
+                this.grid = Encryption.Grid_Generation();             
                 int counter = 0;
 
                 for (int line = 0; line < 10; line++)
@@ -61,12 +67,12 @@ namespace Encryption
                     }
                 }
 
-                textBox3.Text = key.Remove(key.Length - 1);
-                textBox2.Text = Encryption.Encryp_Text(textBox1.Text, this.grid);
-            }       
+                textBox3.Text = key.Remove(key.Length - 1);                
+            }
+            textBox2.Text = Encryption.Encryp_Text(textBox1.Text, this.grid);
         }
 
-        private void To_Decrypt_Text(object sender, EventArgs e)
+        private void To_Decrypt(object sender, EventArgs e)
         {
             try
             {
