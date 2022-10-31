@@ -28,9 +28,6 @@ namespace Encryption
                     switch (quarter[cageNumber])
                     {
                         default:
-                            break;
-
-                        case 0:
                             grid[line, column] = 1;
                             break;
 
@@ -268,114 +265,7 @@ namespace Encryption
 
             return intKey;
         } 
-        /*
-        public static String Encryp_Text_With_Key(String text, String key)
-        {
-            String encryptedText = "";
-            int[] intKey = Convert_Key_To_Int(key);                     
-            int[,] grid = new int[10, 10];
-            int cageCounter = 0;
-            int keyCounter = 0;
-
-            for (int line = 0; keyCounter != 25 && line < 10; line++)
-            {
-                for (int column = 0; keyCounter != 25 && column < 10; column++)
-                {              
-                    if (cageCounter == intKey[keyCounter])
-                    {
-                        grid[line, column] = 1;                      
-                        keyCounter++;
-                    }
-                    cageCounter++;
-                }
-            }
-
-            char[,,] textChars;
-
-            if (text.Length % 100 == 0)
-            {
-                textChars = new char[text.Length / 100, 10, 10];
-            }
-            else
-            {
-                textChars = new char[text.Length / 100 + 1, 10, 10];
-            }
-
-
-            for (int hundred = 0; hundred < textChars.GetLength(0); hundred++)
-            {
-                for (int line = 0; line < 10; line++)
-                {
-                    for (int column = 0; column < 10; column++)
-                    {
-                        textChars[hundred, line, column] = ' ';
-                    }
-                }
-
-                cageCounter = 0;
-
-                for (int line = 0; cageCounter < text.Length && line < 10; line++)
-                {
-                    for (int column = 0; cageCounter < text.Length && column < 10; column++)
-                    {
-                        if (grid[line, column] == 1)
-                        {
-                            textChars[hundred, line, column] = text[cageCounter];
-                            cageCounter++;
-                        }
-                    }
-                }
-
-                for (int line = 0; cageCounter < text.Length && line < 10; line++)
-                {
-                    for (int column = 0; cageCounter < text.Length && column < 10; column++)
-                    {
-                        if (grid[line, column] == 1)
-                        {
-                            textChars[hundred, column, 9 - line] = text[cageCounter];
-                            cageCounter++;
-                        }
-                    }
-                }
-
-                for (int line = 0; cageCounter < text.Length && line < 10; line++)
-                {
-                    for (int column = 0; cageCounter < text.Length && column < 10; column++)
-                    {
-                        if (grid[line, column] == 1)
-                        {
-                            textChars[hundred, 9 - line, 9 - column] = text[cageCounter];
-                            cageCounter++;
-                        }
-                    }
-                }
-
-                for (int line = 0; cageCounter < text.Length && line < 10; line++)
-                {
-                    for (int column = 0; cageCounter < text.Length && column < 10; column++)
-                    {
-                        if (grid[line, column] == 1)
-                        {
-                            textChars[hundred, 9 - column, line] = text[cageCounter];
-                            cageCounter++;
-                        }
-                    }
-                }
-            }
-
-            for (int hundred = 0; hundred < textChars.GetLength(0); hundred++)
-            {
-                for (int line = 0; line < 10; line++)
-                {
-                    for (int column = 0; column < 10; column++)
-                    {
-                        encryptedText += textChars[hundred, line, column];
-                    }
-                }
-            }
-            return encryptedText;
-        }
-        */
+        
         public static int[,] Convert_Key_To_Grid(String key)
         {
             int[] intKey = Convert_Key_To_Int(key);
