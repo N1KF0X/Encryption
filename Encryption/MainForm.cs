@@ -43,33 +43,39 @@ namespace Encryption
         }
 
         private void To_Encrypt(object sender, EventArgs e)
-        {        
-
-            if (radioButton1.Checked)
+        {
+            try
             {
-                this.grid = Encryption.Convert_Key_To_Grid(textBox3.Text);
-            }
-            else
-            {
-                String key = "";
-                this.grid = Encryption.Grid_Generation();             
-                int counter = 0;
-
-                for (int line = 0; line < 10; line++)
+                if (checkBox1.Checked)
                 {
-                    for (int column = 0; column < 10; column++)
-                    {
-                        if (grid[line, column] == 1)
-                        {
-                            key += Convert.ToString(counter) + ".";
-                        }
-                        counter++;
-                    }
+                    this.grid = Encryption.Convert_Key_To_Grid(textBox3.Text);
                 }
+                else
+                {
+                    String key = "";
+                    this.grid = Encryption.Grid_Generation();
+                    int counter = 0;
 
-                textBox3.Text = key.Remove(key.Length - 1);                
+                    for (int line = 0; line < 10; line++)
+                    {
+                        for (int column = 0; column < 10; column++)
+                        {
+                            if (grid[line, column] == 1)
+                            {
+                                key += Convert.ToString(counter) + ".";
+                            }
+                            counter++;
+                        }
+                    }
+
+                    textBox3.Text = key.Remove(key.Length - 1);
+                }
+                textBox2.Text = Encryption.Encryp_Text(textBox1.Text, this.grid);
             }
-            textBox2.Text = Encryption.Encryp_Text(textBox1.Text, this.grid);
+            catch 
+            {
+                MessageBox.Show("Были введены некорректные данные");
+            }
         }
 
         private void To_Decrypt(object sender, EventArgs e)
